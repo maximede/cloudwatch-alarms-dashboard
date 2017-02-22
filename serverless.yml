@@ -1,0 +1,89 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+# It's very minimal at this point and uses default values.
+# You can always add more config options for more control.
+# We've included some commented out config examples here.
+# Just uncomment any of them to get that config option.
+#
+# For full config options, check the docs:
+#    docs.serverless.com
+#
+# Happy Coding!
+
+service: serverless-docusign-lambdas # NOTE: update this with your service name
+
+# You can pin your service to only deploy with a specific Serverless version
+# Check out our docs for more details
+frameworkVersion: ">=1.6.1 <2.0.0"
+
+
+custom:
+    alarmsPrefix: prod
+
+provider:
+  name: aws
+  runtime: nodejs4.3
+  memorySize: 128
+  timeout: 5
+  stage: prod
+
+
+# you can overwrite defaults here
+#  stage: dev
+  region: us-west-1
+
+# you can add statements to the Lambda function's IAM Role here
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "cloudwatch:Describe*"
+      Resource: [ "*" ]
+
+
+# you can define service wide environment variables here
+#  environment:
+#    variable1: value1
+
+   
+
+functions:
+  list-alarms:
+    handler: src/listAlarms.list
+    events:
+      - http:
+          path: alarm
+          method: get
+          cors:
+            origins:
+              - 'localhost:4200'
+            headers:
+              - Content-Type
+            allowCredentials: false
+  alarm-detail:
+    handler: /src/alarmDetail.get
+    events:
+      - http:
+          path: alarm/{name}
+          method: get
+          integration: lambda
+          cors:
+            origins:
+              - 'http://localhost:4200'
+            headers:
+              - Content-Type
+            allowCredentials: false
+          request:
+            parameters:
+              paths:
+                name: true
+          response:
+             headers:
+               Access-Control-Allow-Origin: "'http://localhost:4200'"
+               X-PIXEL: "'hello'"
+             template: $input.path("$.body") # JSON return object
+
+package:
+  exclude:
+    - cloudwatch-dashboard/**
+

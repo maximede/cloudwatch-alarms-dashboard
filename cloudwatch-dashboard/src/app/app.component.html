@@ -1,0 +1,11 @@
+<p class="lead">Lorem ipsum dolor amet</p>
+<table class="table">
+    <thead>
+    <th>Alarm Name</th>
+    <th>State</th>
+    </thead>
+    <tr *ngFor="let alarm of alarms" ngClass="{{classForState(alarm.state)}}">
+        <td>{{alarm.alarmName}}</td>
+        <td>{{alarm.state}}</td>
+    </tr>
+</table>
