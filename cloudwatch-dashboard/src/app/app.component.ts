@@ -12,25 +12,14 @@ import {AlarmDetail} from "./alarmDetail";
 
 export class AppComponent {
     alarms: Alarm[];
-    test: AlarmDetail = new AlarmDetail;
 
     constructor(private alarmService: AlarmService) {
+      setInterval(() => { this.getAlarms(); }, 1000 * 60 * 5);
     }
 
 
     getAlarms(): void {
         this.alarmService.listAlarms().then(alarms => this.alarms = alarms);
-
-        console.log(this.alarms);
-    }
-
-    getAlarmDetail(alarmName :string): void {
-        this.alarmService.getAlarm(alarmName).then(test => {
-            console.log("alarm : " + JSON.stringify(test));
-            console.log("alarm : " + test.statuses.oneDayAgo);
-
-            return this.test = test;
-        });
 
         console.log(this.alarms);
     }
@@ -50,7 +39,7 @@ export class AppComponent {
 
     ngOnInit(): void {
         this.getAlarms();
-        this.getAlarmDetail("prod-pixel-cpu-credit-low");
+        //this.getAlarmDetail("prod-pixel-cpu-credit-low");
     }
 
 }

@@ -1,11 +1,17 @@
 <p class="lead">Lorem ipsum dolor amet</p>
-<table class="table">
-    <thead>
-    <th>Alarm Name</th>
-    <th>State</th>
-    </thead>
-    <tr *ngFor="let alarm of alarms" ngClass="{{classForState(alarm.state)}}">
-        <td>{{alarm.alarmName}}</td>
-        <td>{{alarm.state}}</td>
-    </tr>
+<table class="table .table-striped .table-condensed">
+  <thead>
+  <th>Alarm Name</th>
+  <th>Status</th>
+  <th *ngIf="alarms && alarms[0].statuses.lastHour">Over the last hour</th>
+  <th *ngIf="alarms && alarms[0].statuses.lastDay" >Over the last day</th>
+  <th *ngIf="alarms && alarms[0].statuses.lastWeek">In the last week</th>
+  </thead>
+  <tr *ngFor="let alarm of alarms">
+    <td><a href="#" title="{{alarm.description}}">{{alarm.name}}</a></td>
+    <td ngClass="{{classForState(alarm.state)}}">{{alarm.state}}</td>
+    <td *ngIf="alarm.statuses.lastHour" ngClass="{{classForState(alarm.statuses.lastHour)}}">{{alarm.statuses.lastHour}} <span *ngIf="alarm.statusesChangeCount.lastHour != '0'">( {{alarm.statusesChangeCount.lastHour}} status change )</span></td>
+    <td *ngIf="alarm.statuses.lastDay" ngClass="{{classForState(alarm.statuses.lastDay)}}">{{alarm.statuses.lastDay}} <span *ngIf="alarm.statusesChangeCount.lastDay != '0'">( {{alarm.statusesChangeCount.lastDay}} status change )</span></td>
+    <td *ngIf="alarm.statuses.lastWeek" ngClass="{{classForState(alarm.statuses.lastWeek)}}">{{alarm.statuses.lastWeek}} <span *ngIf="alarm.statusesChangeCount.lastWeek != '0'">( {{alarm.statusesChangeCount.lastWeek}} status change )</span></td>
+  </tr>
 </table>

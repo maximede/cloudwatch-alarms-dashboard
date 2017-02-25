@@ -5,6 +5,7 @@
   "author": "maximed",
   "license": "ECL-2.0",
   "dependencies": {
-    "aws-sdk": "^2.9.0"
+    "aws-sdk": "^2.9.0",
+    "bluebird": "^3.4.7"
   }
 }

@@ -8,21 +8,11 @@ import {AlarmDetail} from "./alarmDetail";
 @Injectable()
 export class AlarmService {
 
-    private listAlarmUrl = 'https://iwmbzxpcdk.execute-api.us-west-1.amazonaws.com/prod/alarm';
-    private alarmDetailUrl = 'https://iwmbzxpcdk.execute-api.us-west-1.amazonaws.com/prod/alarm/';
+    private listAlarmUrl = 'https://ju9y7c7h6l.execute-api.us-west-2.amazonaws.com/prod/alarm';
 
     constructor(private http: Http) {
     }
 
-    getAlarm(alarmName: string): Promise<AlarmDetail> {
-        return this.http.get(this.alarmDetailUrl + alarmName)
-            .toPromise()
-            .then(response => {
-                console.log("received " + response.json());
-                return response.json() as AlarmDetail;
-            })
-            .catch(this.handleError);
-    }
 
     listAlarms(): Promise<Alarm[]> {
         return this.http.get(this.listAlarmUrl)
@@ -47,7 +37,7 @@ export class AlarmService {
     }
 
     private handleError(error: any): Promise<any> {
-        console.error('An error occurred', error); // for demo purposes only
+        console.error('An error occurred', error);
         return Promise.reject(error.message || error);
     }
 }
