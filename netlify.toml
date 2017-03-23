@@ -1,3 +1,4 @@
 [build]
   base = "cloudwatch-dashboard"
-  public= "dist"
+  publish= "cloudwatch-dashboard/dist"
+  command= "npm install && ng build"
